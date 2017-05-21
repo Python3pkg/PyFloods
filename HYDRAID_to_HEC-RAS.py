@@ -32,7 +32,7 @@ for filename in filenames:
     with zipfile.ZipFile(filename, "r") as z:
         z.extractall(temp)
         #z.extractall(ras_zip_folder)
-        print temp
+        print(temp)
         os.chdir(temp)
         rasfile = glob.glob("*.prj")
         HYDRAID = filename[:filename.find('_')]
@@ -41,7 +41,7 @@ for filename in filenames:
         HYDRAIDs.append(HYDRAID)
         rasfiles.append(rasfile)
 
-table = zip(HYDRAIDs, rasfiles)
+table = list(zip(HYDRAIDs, rasfiles))
 
 
 ###

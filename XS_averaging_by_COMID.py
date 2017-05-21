@@ -87,7 +87,7 @@ point_xsids = list(df_points['XSID'])
 len(set(point_xsids)) # we lose 2 cross-sections in the set. 
 point_stations = list(df_points['Station'])
 point_elevations = list(df_points['Elevation'])
-point_elevations = map(int, point_elevations) # use elevations as integers
+point_elevations = list(map(int, point_elevations)) # use elevations as integers
 midpoint_comids = list(df_midpoints['COMID'])
 
 
@@ -99,7 +99,7 @@ COMIDs = []
 XSIDs = []
 for i in range(len(point_xsids)-1):# leave the last point for simplicity
     time.sleep(0.000000000000000001)
-    print "yay! hehe"
+    print("yay! hehe")
     update_progress((i+1)/float(len(point_xsids)))
     if int(point_xsids[i]) == int(point_xsids[i+1]) or point_xsids.index(int(point_xsids[len(point_xsids)-1])) == i+1: ###########
         xsid.append(point_xsids[i])
@@ -151,7 +151,7 @@ for i in range(len(point_xsids)-1):# leave the last point for simplicity
         xsid, station, elevation, w = [], [], [], []
 
 # add all the variables together and make a new dataframe with COMIDs and the stations and elvecations by row
-table = zip(COMIDs, Ws, s_0s, s_2s, s_4s, s_5s, s_6s, s_8s, s_10s, d_0s, d_2s, d_4s, d_5s, d_6s, d_8s, d_10s)
+table = list(zip(COMIDs, Ws, s_0s, s_2s, s_4s, s_5s, s_6s, s_8s, s_10s, d_0s, d_2s, d_4s, d_5s, d_6s, d_8s, d_10s))
 columns = ('COMIDs','Ws', 's_0s', 's_2s', 's_4s', 's_5s', 's_6s', 's_8s', 's_10s', 'd_0s', 'd_2s', 'd_4s', 'd_5s', 'd_6s', 'd_8s', 'd_10s')
 df = pd.DataFrame(table, index = COMIDs, columns = columns)
 averaged_df = df.groupby('COMIDs').mean().dropna()

@@ -15,9 +15,9 @@ files = glob.glob("*.csv")
 tables = [[],[]]
 
 for file in files:
-    print file
+    print(file)
     for i,j in table:
-        print i,j
+        print(i,j)
         tables.append([i, str(j)])
 tables = tables[2:]
 
@@ -26,5 +26,5 @@ with open(path+filename, "w") as the_file:
     csv.register_dialect("custom", delimiter=",")
     writer = csv.writer(the_file, dialect="custom")
     for tup in tables:
-        print tup
+        print(tup)
         writer.writerow(tup)

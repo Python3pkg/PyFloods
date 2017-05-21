@@ -50,9 +50,9 @@ HEC_df2.columns
 connectivity_df = pd.DataFrame(connectivity_data[0:,0:],
                   columns = connectivity_df_columns,
                   index = [connectivity_data[0:,0]])
-connectivity_df["COMIDs"]= map(int,connectivity_df["COMIDs"])
-connectivity_df["FromNode"]= map(int,connectivity_df["FromNode"])
-connectivity_df["ToNode"]= map(int,connectivity_df["ToNode"])
+connectivity_df["COMIDs"]= list(map(int,connectivity_df["COMIDs"]))
+connectivity_df["FromNode"]= list(map(int,connectivity_df["FromNode"]))
+connectivity_df["ToNode"]= list(map(int,connectivity_df["ToNode"]))
 
 connectivity_df_not_overwritten = connectivity_df.copy() ##### COPYING IS IMPORTANT!!!!!!
 
@@ -93,17 +93,17 @@ connectivity_df_overwritten.to_csv(file_name+'converted', header=False, index=Fa
 
 
 # Plots for comparison of cross-sections
-stations = map(int,hec.ix[:,['s_0s','s_2s','s_4s','s_5s','s_6s','s_8s','s_10s']].stack())
-elevations = map(int,hec.ix[:,['d_0s','d_2s','d_4s','d_5s','d_6s','d_8s','d_10s']].stack())
-stations2 = map(int,conn.ix[:,['s_0s','s_2s','s_4s','s_5s','s_6s','s_8s','s_10s']].stack())
-elevations2 = map(int,conn.ix[:,['d_0s','d_2s','d_4s','d_5s','d_6s','d_8s','d_10s']].stack())
+stations = list(map(int,hec.ix[:,['s_0s','s_2s','s_4s','s_5s','s_6s','s_8s','s_10s']].stack()))
+elevations = list(map(int,hec.ix[:,['d_0s','d_2s','d_4s','d_5s','d_6s','d_8s','d_10s']].stack()))
+stations2 = list(map(int,conn.ix[:,['s_0s','s_2s','s_4s','s_5s','s_6s','s_8s','s_10s']].stack()))
+elevations2 = list(map(int,conn.ix[:,['d_0s','d_2s','d_4s','d_5s','d_6s','d_8s','d_10s']].stack()))
 
 for i in range(1,90):  #len(stations)/7):
     st = stations[i*7], stations[i*7+1], stations[i*7+2], stations[i*7+3], stations[i*7+4], stations[i*7+5], stations[i*7+6]
-    st = map(int, st)
+    st = list(map(int, st))
     el = elevations[i*7], elevations[i*7+1], elevations[i*7+2], elevations[i*7+3], elevations[i*7+4], elevations[i*7+5], elevations[i*7+6]
     st2 = stations2[i*7], stations2[i*7+1], stations2[i*7+2], stations2[i*7+3], stations2[i*7+4], stations2[i*7+5], stations2[i*7+6]
-    st2 = map(int, st2)
+    st2 = list(map(int, st2))
     el2 = elevations2[i*7], elevations2[i*7+1], elevations2[i*7+2], elevations2[i*7+3], elevations2[i*7+4], elevations2[i*7+5], elevations2[i*7+6]
     if i/9 != 0:
         if i < 9:

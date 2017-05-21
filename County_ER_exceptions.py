@@ -108,7 +108,7 @@ def get_HYDRAID_rasfiles_table(ras_folder_path):
             #rasfile = 'no_file_found'
             pass
         
-        print temp
+        print(temp)
         os.chdir(temp)
         extract_subfolders(temp)
         rasfile = glob.glob("*.prj") #picks the first HEC-RAS model - typically, there is just one per zip folder
@@ -195,11 +195,11 @@ def get_entrenchment_ratio(ras_folder_path, rasfiles, HYDRAIDs):
         if idx<0:
             pass
         else:
-            print idx, ras_file
+            print(idx, ras_file)
             try:
                 RC.Project_Open(ras_folder_path+ "\\"+ ras_file) 
                 #RC.showras()
-                print ras_file
+                print(ras_file)
                 NumRS =  RC.Schematic_XSCount(); # Number of nodes HEC-RAS will populate: not sure -> verify this
                 StrNodeType = "" # XS node type
                 StrRS = RC.Geometry_GetNodes(RiverID, ReachID)[3]; # Not in the book! - Or this looks different in the book - Pg. 36
@@ -227,7 +227,7 @@ def get_entrenchment_ratio(ras_folder_path, rasfiles, HYDRAIDs):
                 for i in range(NumRS):
                     Avg_Vel[i] = RC.Output_NodeOutput(RiverID, ReachID, i+1, 0, 1, AvgVelID)[0]
                     if Avg_Vel[i] > 100:
-                        print int(i)
+                        print(int(i))
                         outliers = np.append(outliers, i)  ### local  
                 #NumRS = NumRS - len(outliers)
                 # Create an empty column vector for each variable for the number of XS
@@ -266,13 +266,13 @@ def get_entrenchment_ratio(ras_folder_path, rasfiles, HYDRAIDs):
                     Entrenchment_Ratio3[p-1] = np.average(ER2)
                     if p==1:
                         if [ras_file] in rasfiles:
-                            print ras_file
+                            print(ras_file)
                             Index = rasfiles.index([ras_file])    
                             EntrenchmentTableID.append(HYDRAIDs[Index])
                             EntrenchmentTableValue.append(Entrenchment_Ratio1[p-1]) 
                         else:
                             pass
-                EntrenchmentRatio = np.array(zip(ProfileNames,Entrenchment_Ratio1,Entrenchment_Ratio2,Entrenchment_Ratio3))
+                EntrenchmentRatio = np.array(list(zip(ProfileNames,Entrenchment_Ratio1,Entrenchment_Ratio2,Entrenchment_Ratio3)))
                 EntrenchmentRatios["EntrenchmentRatio_"+ras_file[0:-4]] = EntrenchmentRatio
                 #        import pickle, os
                 #        os.chdir("C:\Users\solo\Dropbox\Python")
@@ -283,7 +283,7 @@ def get_entrenchment_ratio(ras_folder_path, rasfiles, HYDRAIDs):
                 #        EntrenchmentTable = pickle.load(g)
             except:
                 pass
-        EntrenchmentTable = zip(EntrenchmentTableID, EntrenchmentTableValue)
+        EntrenchmentTable = list(zip(EntrenchmentTableID, EntrenchmentTableValue))
     return EntrenchmentTable
 
 
@@ -298,7 +298,7 @@ def write_entrenchment_table_to_csv(EntrenchmentTable):
         csv.register_dialect("custom", delimiter=",")
         writer = csv.writer(the_file, dialect="custom")
         for tup in EntrenchmentTable:
-            print tup
+            print(tup)
             writer.writerow(tup)
             
 def get_entrenchment_csvs_in_one_place(EntrenchmentTable):
@@ -308,7 +308,7 @@ def get_entrenchment_csvs_in_one_place(EntrenchmentTable):
         csv.register_dialect("custom", delimiter=",")
         writer = csv.writer(the_file, dialect="custom")
         for tup in EntrenchmentTable:
-            print tup
+            print(tup)
             writer.writerow(tup)
 
 ###############################################################################
@@ -362,7 +362,7 @@ undone_counties = undone_counties[6:]
 
 for j, ras_folder in enumerate(undone_counties):
          ras_folder = undone_counties[j]
-         print(j, ras_folder)
+         print((j, ras_folder))
          time.sleep(0.000000000000000001)
          update_progress(j/len(counties))
          ras_folder_path = FRIS_counties_path+'\\'+ras_folder

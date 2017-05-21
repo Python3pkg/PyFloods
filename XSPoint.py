@@ -116,10 +116,10 @@ def main():
     ReadGeometry(Geometryfilename)
     CreatePoint()
     XSPointmerge()
-    print ("Work done! Please go to your project folder "
-           + os.getcwd() + "\\Result" + " to check your result\n")
+    print(("Work done! Please go to your project folder "
+           + os.getcwd() + "\\Result" + " to check your result\n"))
 
-    done = raw_input('(press ENTER to quit)')
+    done = input('(press ENTER to quit)')
 
 if __name__ == "__main__":
     main()

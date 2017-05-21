@@ -79,7 +79,7 @@ def get_HYDRAID_rasfiles_table(ras_folder):
         with zipfile.ZipFile(filename, "r") as z:
             z.extractall(temp)
             #z.extractall(ras_zip_folder)
-            print temp
+            print(temp)
             os.chdir(temp)
             rasfile = glob.glob("*.prj")
             HYDRAID = filename[:filename.find('_')]
@@ -161,9 +161,9 @@ def get_entrenchment_ratio(ras_folder, rasfiles, HYDRAIDs):
         if idx<0:
             pass
         else:
-            print idx, ras_file
+            print(idx, ras_file)
             RC.Project_Open(ras_folder+ "\\"+ ras_file) 
-            print ras_file
+            print(ras_file)
             NumRS =  RC.Schematic_XSCount(); # Number of nodes HEC-RAS will populate: not sure -> verify this
             StrNodeType = "" # XS node type
             StrRS = RC.Geometry_GetNodes(RiverID, ReachID)[3]; # Not in the book! - Or this looks different in the book - Pg. 36
@@ -192,7 +192,7 @@ def get_entrenchment_ratio(ras_folder, rasfiles, HYDRAIDs):
             for i in range(NumRS):
                 Avg_Vel[i] = RC.Output_NodeOutput(RiverID, ReachID, i+1, 0, 1, AvgVelID)[0]
                 if Avg_Vel[i] > 100:
-                    print int(i)
+                    print(int(i))
                     outliers = np.append(outliers, i)  ### local  
         
             #NumRS = NumRS - len(outliers)
@@ -232,13 +232,13 @@ def get_entrenchment_ratio(ras_folder, rasfiles, HYDRAIDs):
                 Entrenchment_Ratio3[p-1] = np.average(ER2)
                 if p==1:
                     if [ras_file] in rasfiles:
-                        print ras_file
+                        print(ras_file)
                         Index = rasfiles.index([ras_file])    
                         EntrenchmentTableID.append(HYDRAIDs[Index])
                         EntrenchmentTableValue.append(Entrenchment_Ratio1[p-1]) 
                     else:
                         pass
-            EntrenchmentRatio = np.array(zip(ProfileNames,Entrenchment_Ratio1,Entrenchment_Ratio2,Entrenchment_Ratio3))
+            EntrenchmentRatio = np.array(list(zip(ProfileNames,Entrenchment_Ratio1,Entrenchment_Ratio2,Entrenchment_Ratio3)))
             EntrenchmentRatios["EntrenchmentRatio_"+ras_file[0:-4]] = EntrenchmentRatio
             #        import pickle, os
             #        os.chdir("C:\Users\solo\Dropbox\Python")
@@ -247,7 +247,7 @@ def get_entrenchment_ratio(ras_folder, rasfiles, HYDRAIDs):
             #        g = open("EntrenchmentTable.p")
             #        EntrenchmentRatios = pickle.load(f)
             #        EntrenchmentTable = pickle.load(g)
-        EntrenchmentTable = zip(EntrenchmentTableID, EntrenchmentTableValue)
+        EntrenchmentTable = list(zip(EntrenchmentTableID, EntrenchmentTableValue))
     return EntrenchmentTable
 
 
@@ -262,7 +262,7 @@ def write_entrenchment_table_to_csv(EntrenchmentTable):
         csv.register_dialect("custom", delimiter=",")
         writer = csv.writer(the_file, dialect="custom")
         for tup in EntrenchmentTable:
-            print tup
+            print(tup)
             writer.writerow(tup)
             
 def get_entrenchment_csvs_in_one_place(EntrenchmentTable):
@@ -272,7 +272,7 @@ def get_entrenchment_csvs_in_one_place(EntrenchmentTable):
         csv.register_dialect("custom", delimiter=",")
         writer = csv.writer(the_file, dialect="custom")
         for tup in EntrenchmentTable:
-            print tup
+            print(tup)
             writer.writerow(tup)
 
 ###############################################################################
@@ -293,7 +293,7 @@ counties = counties[13:] # where the 2-last files are the county folders
 for j, ras_folder in enumerate(counties):
     try:
         ras_folder = counties[j]
-        print j, ras_folder
+        print(j, ras_folder)
         time.sleep(0.000000000000000001)
         update_progress(j/len(counties))
         ras_folder_path = FRIS_counties_path+'\\'+ras_folder
